@@ -5,7 +5,6 @@ const bodyPartSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Body part name is required'],
     trim: true,
-    unique: true,
     lowercase: true
   },
   displayName: {

@@ -5,7 +5,6 @@ const diseaseSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Disease name is required'],
     trim: true,
-    unique: true,
     lowercase: true
   },
   displayName: {
