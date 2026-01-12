@@ -1,15 +1,44 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const morgan = require('morgan');
 const connectDB = require('./config/database');
 const env = require('./config/env');
+const securityHeaders = require('./middleware/security');
 
 const app = express();
 
-// Middleware
-app.use(cors({ origin: env.corsOrigin }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Security headers (production only)
+securityHeaders(app);
+
+// Security: CORS
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = env.corsOrigin.split(',').map(o => o.trim());
+    if (allowedOrigins.includes(origin) || env.nodeEnv === 'development') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
+// Body parser with size limits
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Logging
+if (env.nodeEnv === 'development') {
+  app.use(morgan('dev'));
+} else {
+  app.use(morgan('combined'));
+}
 
 // Basic route
 app.get('/', (req, res) => {
@@ -28,6 +57,10 @@ app.get('/health', (req, res) => {
 // API Routes
 const routes = require('./routes');
 app.use('/api', routes);
+
+// Error Handler (must be after all routes)
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
 
 // Start server
 connectDB().then(async () => {
