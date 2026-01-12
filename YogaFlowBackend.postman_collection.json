@@ -1,0 +1,890 @@
+{
+	"info": {
+		"_postman_id": "yoga-flow-backend",
+		"name": "Yoga Flow Backend API",
+		"description": "Complete API collection for Yoga Flow Backend Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"test123456\",\n  \"role\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Teacher",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"teacher@example.com\",\n  \"password\": \"test123456\",\n  \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.data && response.data.token) {",
+									"        pm.environment.set('auth_token', response.data.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"test123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User (Me)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "me"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/profile",
+							"host": ["{{base_url}}"],
+							"path": ["profile"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"level\": \"intermediate\",\n  \"diseases\": [\"asthma\", \"hypertension\"],\n  \"bodyPartsAffected\": [\"shoulders\", \"neck\"],\n  \"preferences\": {\n    \"intensity\": \"moderate\",\n    \"timeRange\": {\n      \"min\": 20,\n      \"max\": 45\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/profile",
+							"host": ["{{base_url}}"],
+							"path": ["profile"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Master Lists",
+			"item": [
+				{
+					"name": "Get Diseases",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/diseases",
+							"host": ["{{base_url}}"],
+							"path": ["diseases"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Disease",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Migraine\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/diseases",
+							"host": ["{{base_url}}"],
+							"path": ["diseases"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Body Parts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/body-parts",
+							"host": ["{{base_url}}"],
+							"path": ["body-parts"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Body Part",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"SI Joint\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/body-parts",
+							"host": ["{{base_url}}"],
+							"path": ["body-parts"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Asanas",
+			"item": [
+				{
+					"name": "Get Asanas (List)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/asanas?level=beginner&bodyPart=shoulders&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["asanas"],
+							"query": [
+								{
+									"key": "level",
+									"value": "beginner"
+								},
+								{
+									"key": "bodyPart",
+									"value": "shoulders"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asana by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/asanas/:id",
+							"host": ["{{base_url}}"],
+							"path": ["asanas", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "asana_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Asana (Teacher)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test Asana\",\n  \"level\": \"beginner\",\n  \"bodyParts\": [\"shoulders\", \"upper_back\"],\n  \"images\": [],\n  \"alignment\": {\n    \"text\": \"Stand tall with feet together\"\n  },\n  \"steps\": {\n    \"text\": \"1. Stand with feet together\\n2. Lengthen your spine\"\n  },\n  \"exemptFrom\": {\n    \"diseases\": [],\n    \"injuries\": []\n  },\n  \"isPrivate\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/asanas",
+							"host": ["{{base_url}}"],
+							"path": ["asanas"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asana",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/asanas/:id",
+							"host": ["{{base_url}}"],
+							"path": ["asanas", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "asana_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Asana",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/asanas/:id",
+							"host": ["{{base_url}}"],
+							"path": ["asanas", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "asana_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flows",
+			"item": [
+				{
+					"name": "Get Flows (List)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/flows?purpose=practice&level=beginner&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["flows"],
+							"query": [
+								{
+									"key": "purpose",
+									"value": "practice"
+								},
+								{
+									"key": "level",
+									"value": "beginner"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Flow by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/flows/:id",
+							"host": ["{{base_url}}"],
+							"path": ["flows", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "flow_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Flow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Morning Warm-up Flow\",\n  \"purpose\": \"practice\",\n  \"asanas\": [\n    {\n      \"asana\": \"asana_id_1\",\n      \"order\": 1,\n      \"duration\": 60,\n      \"notes\": \"Hold for 3 breaths\"\n    },\n    {\n      \"asana\": \"asana_id_2\",\n      \"order\": 2,\n      \"duration\": 90\n    }\n  ],\n  \"isPublic\": false,\n  \"description\": \"A gentle morning flow\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/flows",
+							"host": ["{{base_url}}"],
+							"path": ["flows"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Practice Flow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"full_body\",\n  \"level\": [\"beginner\"],\n  \"timeRange\": {\n    \"min\": 15,\n    \"max\": 30\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/flows/generate/practice",
+							"host": ["{{base_url}}"],
+							"path": ["flows", "generate", "practice"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Targeted Practice Flow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"targeted\",\n  \"level\": [\"beginner\"],\n  \"bodyPart\": \"shoulders\",\n  \"timeRange\": {\n    \"min\": 20,\n    \"max\": 30\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/flows/generate/practice",
+							"host": ["{{base_url}}"],
+							"path": ["flows", "generate", "practice"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Heal Flow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bodyPart\": \"lower_back\",\n  \"healingStage\": \"beginning\",\n  \"injuryLevel\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/flows/generate/heal",
+							"host": ["{{base_url}}"],
+							"path": ["flows", "generate", "heal"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Heal Flow (High Injury Level)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bodyPart\": \"knee\",\n  \"injuryLevel\": 6\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/flows/generate/heal",
+							"host": ["{{base_url}}"],
+							"path": ["flows", "generate", "heal"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Generated Flow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"My Generated Flow\",\n  \"purpose\": \"practice\",\n  \"asanas\": [\n    {\n      \"asana\": \"asana_id_1\",\n      \"order\": 1\n    }\n  ],\n  \"isPublic\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/flows/save-generated",
+							"host": ["{{base_url}}"],
+							"path": ["flows", "save-generated"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Flow",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Updated description\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/flows/:id",
+							"host": ["{{base_url}}"],
+							"path": ["flows", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "flow_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Flow",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/flows/:id",
+							"host": ["{{base_url}}"],
+							"path": ["flows", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "flow_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get System Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/stats",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "stats"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/users?role=user&page=1&limit=20",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users"],
+							"query": [
+								{
+									"key": "role",
+									"value": "user"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"isActive\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/users/:id/status",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", ":id", "status"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "user_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Diseases (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/diseases?page=1&limit=50",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "diseases"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Disease Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"isActive\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/diseases/:id/status",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "diseases", ":id", "status"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "disease_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Body Parts (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/body-parts?page=1&limit=50",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "body-parts"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Body Part Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"isActive\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/body-parts/:id/status",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "body-parts", ":id", "status"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "bodypart_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000/api",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
