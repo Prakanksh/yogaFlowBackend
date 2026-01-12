@@ -1,7 +1,11 @@
 {
   "name": "yoga-flow-backend",
   "version": "1.0.0",
-  "description": "Backend API for Yoga Practice Application",
+  "description": "Backend API for Yoga Practice Application - Generates personalized yoga flows based on user profiles, health conditions, and preferences",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Prakanksh/yogaFlowBackend.git"
+  },
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
