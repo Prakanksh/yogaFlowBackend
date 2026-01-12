@@ -122,6 +122,23 @@ scripts/
 
 See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for detailed documentation.
 
+## Deployment
+
+The backend is production-ready. See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment instructions.
+
+**Quick Deploy**: The application can be deployed to Railway, Heroku, or Render with minimal configuration. See deployment guide for details.
+
+## Production Readiness
+
+- ✅ Centralized error handling
+- ✅ Request validation
+- ✅ Security headers (Helmet)
+- ✅ Enhanced CORS configuration
+- ✅ HTTP logging (Morgan)
+- ✅ Production-ready middleware
+
+See [PRODUCTION_README.md](./PRODUCTION_README.md) for production checklist and security best practices.
+
 ## Test Users
 
 Default test users (created by seed script):

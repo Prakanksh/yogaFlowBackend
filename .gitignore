@@ -6,3 +6,10 @@ dist/
 build/
 .vscode/
 .idea/
+coverage/
+.env.local
+.env.production
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
