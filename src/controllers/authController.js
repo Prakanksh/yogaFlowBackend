@@ -11,14 +11,6 @@ const register = async (req, res) => {
       });
     }
     
-    const validation = validateRegistration(email, phone);
-    if (!validation.valid) {
-      return res.status(400).json({
-        success: false,
-        message: validation.error
-      });
-    }
-    
     if (role !== 'user' && role !== 'teacher') {
       return res.status(400).json({
         success: false,
